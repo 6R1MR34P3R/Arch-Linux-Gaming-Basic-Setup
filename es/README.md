@@ -1,136 +1,236 @@
+## Guía Completa de Instalación para Gaming en Arch Linux
+**Aviso importante:** Esta guía presupone que cuentas con una instalación básica de Arch Linux, lo cual implica conocimientos básicos del sistema y su manejo a través de la línea de comandos. Se asume también que tienes acceso al Arch User Repository (AUR) mediante el uso de `yay`. Si utilizas otro ayudante de AUR, simplemente reemplaza los comandos de `yay` por los correspondientes a tu herramienta de preferencia.
 
-# Guía de Instalación para Arch Linux Gaming
+Esta guía te ayudará a configurar un sistema Arch Linux optimizado para gaming. Abarca desde la instalación de drivers y herramientas de gestión de GPU hasta la instalación de aplicaciones de gaming y utilidades.
 
-Esta guía te ayudará a configurar un sistema Arch Linux optimizado para juegos. Incluye la instalación de drivers, herramientas de gestión de GPU, y otros componentes necesarios para una experiencia de juego fluida.
+### Actualiza tu Sistema
 
-## 1. Instalación de Drivers Nvidia
-
-```bash
-sudo mhwd -a pci nonfree 0300
-```
+Asegúrate de que tu sistema esté completamente actualizado antes de comenzar:
 
 ```bash
-sudo pacman -S mesa
+$ sudo pacman -Syu
 ```
+
+### Habilitar el Repositorio Multilib
+
+Para poder instalar paquetes de 32 bits en tu sistema de 64 bits, es necesario habilitar el repositorio `multilib`. Esto es especialmente importante para la compatibilidad con ciertos juegos y aplicaciones.
+
+Para habilitar el repositorio `multilib`, descomenta (quitando el #)  de la sección `[multilib]` en `/etc/pacman.conf`con tu editor de texto favorito:
+```bash
+$ sudo nano /etc/pacman.conf
+```
+```plaintext
+/etc/pacman.conf
+--------------------------------------------------------------------------------------
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+Después de modificar `pacman.conf`, recuerda actualizar tu lista de paquetes:
 
 ```bash
-sudo pacman -S lib32-mesa
+$ sudo pacman -Sy
 ```
+
+
+### Instalación de Drivers de GPU
+
+Dependiendo de tu hardware, instala los drivers correspondientes para Nvidia, AMD o Intel.
+
+#### Para GPUs Nvidia
 
 ```bash
-sudo pacman -S libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools
+# Instala el driver Nvidia
+$ sudo mhwd -a pci nonfree 0300
+
+# Instala Mesa y sus dependencias
+$ sudo pacman -S mesa lib32-mesa libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos
 ```
+
+#### Para GPUs AMD
 
 ```bash
-sudo pacman -S lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos
+# Instala los drivers de Mesa para AMD
+$ sudo pacman -S mesa lib32-mesa libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools vulkan-radeon lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos lib32-vulkan-radeon
 ```
 
-## 2. Instalación de Controladores de Mesa AMD
+#### Para GPUs Intel
 
 ```bash
-sudo pacman -S mesa lib32-mesa
+# Instala los drivers de Mesa para Intel
+$ sudo pacman -S mesa lib32-mesa libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools vulkan-intel lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos
 ```
+
+### Verificar la Versión de Mesa
+
+Verifica que la versión de Mesa esté correctamente instalada:
 
 ```bash
-sudo pacman -S libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools vulkan-radeon
+$ glxinfo | grep "OpenGL version"
 ```
+
+### Instalar el Kernel Zen
+
+El Kernel Zen ofrece un mejor rendimiento para juegos y aplicaciones.
 
 ```bash
-sudo pacman -S lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos lib32-vulkan-radeon
+# Instala el Kernel Zen y los headers correspondientes
+$ sudo pacman -S linux-zen linux-zen-headers
+
+# Actualiza el archivo de configuración de GRUB
+$ sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-## 3. Instalación de Controladores de Mesa Intel
+### Instalar Wine Staging
+
+El comando a continuación instala Wine Staging y dependencias esenciales para garantizar la compatibilidad con una amplia variedad de aplicaciones y juegos de Windows, incluidas aquellos que requieran soporte de 32 bits.
+
 
 ```bash
-sudo pacman -S mesa lib32-mesa
+sudo pacman -S wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-
+libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils
+lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-
+plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-
+turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-
+libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader
+lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3
+gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-
+icd-loader
 ```
+
+Esta instalación no requiere Wine base, ya que Wine Staging incluye todas sus funcionalidades además de las mejoras experimentales.
+
+### Instalar Herramientas de Optimización y Aplicaciones de Gaming
+
+A continuación, se detallan varias herramientas útiles para mejorar tu experiencia de gaming.
+
+Antes de proceder con la instalación de las siguientes herramientas, es importante considerar que su instalación debe basarse en tus preferencias personales y necesidades específicas de gaming. No todas las herramientas serán necesarias para todos los usuarios. Por ejemplo, si no planeas jugar títulos de la Epic Games Store, GOG, o Amazon Prime Gaming, podrías optar por no instalar **Heroic Game Launcher**. Lee con antelación las descripciones de cada herramienta y decide cuáles se ajustan mejor a tus necesidades personales.
+
+#### Instalar Mangohud
+
+**Mangohud** es una herramienta de monitoreo para controlar los FPS, las temperaturas, la carga de la CPU/GPU y mucho más en juegos en tiempo real:
 
 ```bash
-sudo pacman -S libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools vulkan-intel
+# Instala Mangohud
+$ sudo pacman -S mangohud
 ```
+
+Puedes utilizar **Mangohud** agregando `mangohud` como parametro de lanzamiento de tus juegos o desde la terminal.
+
+#### Instalar Goverlay
+
+**Goverlay** proporciona una interfaz gráfica para configurar Mangohud:
 
 ```bash
-sudo pacman -S lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos
+# Instala Goverlay
+$ sudo pacman -S goverlay
 ```
 
-## 4. Verificar la Versión de Mesa Instalado
+Configuralo a tu gusto y guarda los ajustes cuando acabes, la proxima vez que ejecutes **Mangohud** los cambios se veran reflejados.
+
+#### Instalar GameMode
+
+**GameMode** de Feral Interactive es una herramienta para optimizar el rendimiento en juegos:
 
 ```bash
-glxinfo | grep "OpenGL version"
+# Instala GameMode
+$ sudo pacman -S gamemode lib32-gamemode
 ```
 
-## 5. Instalación del Kernel Zen
+Asegúrate de que el juego esté configurado para usar GameMode, normalmente añadiendo `gamemoderun` al comando de lanzamiento del juego.
+
+#### Instalar VkBasalt
+
+**VkBasalt** es un middleware de post-procesamiento para Vulkan:
 
 ```bash
-sudo pacman -S linux-zen linux-zen-headers
+# Instala VkBasalt
+$ sudo pacman -S vkbasalt
 ```
+
+#### Instalar Proton y Steam
+
+**Proton** es una herramienta para ejecutar juegos de Windows en Steam:
 
 ```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+# Instala Steam
+$ sudo pacman -S steam
+
+# Proton se instalará con Steam, pero asegúrate de que esté habilitado en la configuración de Steam
 ```
 
-## 6. Instalación de Optimus Manager y Optimus Manager QT (AUR)
+### Instalar ProtonUp-Qt
 
-Para gestionar múltiples GPUs en tu sistema, puedes instalar **Optimus Manager** y **Optimus Manager QT** desde AUR.
+**PrtonUp-Qt** proporciona una interfaz gráfica para instalar y gestionar multiples versiones de Proton, Wine y derivados para la mayoria de plataformas y lanzadores de juego
 
 ```bash
-yay -S optimus-manager optimus-manager-qt
+# Instala ProtonUp-Qt
+$ yay -S protonup-qt
 ```
+#### Instalar Lutris
 
-También puedes optar por instalar **`optimus-manager-qt-git`** si prefieres la versión más reciente del paquete.
-
-**Nota:** Si estás utilizando Plasma, se recomienda modificar el `PKGBUILD` para habilitar características adicionales de la API de KDE. Para hacerlo, edita el `PKGBUILD` y cambia `_plasma=false` a `_plasma=true` (esto añadirá dependencias adicionales).
-
-### Advertencia
-
-Optimus Manager **solo funciona en Xorg**, no es compatible con Wayland.
-
-### Si utilizas GDM
-
-Debes instalar el paquete **`gdm-prime`** y editar el archivo de configuración de GDM:
+**Lutris** es una plataforma de preservación de juegos para GNU/Linux que facilita la instalación de juegos:
 
 ```bash
-sudo pacman -S gdm-prime
+# Instala Lutris
+$ sudo pacman -S lutris
 ```
 
-En el archivo `/etc/gdm/custom.conf`, elimina el `#` antes de `#WaylandEnable=false` para desactivar Wayland.
+#### Instalar Heroic Game Launcher
 
-### Comandos de Optimus Manager
+**Heroic** es una aplicación de código abierto para gestionar e instalar juegos de Epic Games Store, GOG y Amazon Prime Gaming:
 
-- Para cambiar a la GPU Nvidia:
+```bash
+# Instala Heroic Game Launcher
+$ yay -S heroic-games-launcher
+```
 
-  ```bash
-  optimus-manager --switch nvidia
-  ```
+### Configuración de Optimus Manager (Para Sistemas con NVIDIA Optimus)
 
-- Para cambiar a la GPU integrada y apagar la GPU Nvidia:
+**Optimus Manager** es una herramienta para gestionar la conmutación entre GPUs en sistemas con Nvidia Optimus.
 
-  ```bash
-  optimus-manager --switch integrated
-  ```
+#### Instalar Optimus Manager y Optimus Manager QT
 
-- Para cambiar a la iGPU pero mantener la GPU Nvidia disponible para la descarga bajo demanda:
+```bash
+# Instala optimus-manager y optimus-manager-qt desde AUR
+$ yay -S optimus-manager optimus-manager-qt
+```
 
-  ```bash
-  optimus-manager --switch hybrid
-  ```
+Si usas **GDM** debes instalar **GDM-Prime**, que es una versión modificada de **GDM** con parches para mejorar la compatibilidad con **Optimus Manager**.
 
-**Advertencia:** Cambiar el modo hará que tu sesión se cierre automáticamente. Asegúrate de guardar tu trabajo y cerrar todas tus aplicaciones antes de ejecutar el comando.
+```bash
+# Instala gdm-prime desde AUR
+$ yay -S gdm-prime
+```
+El paquete **`optimus-manager-qt`** proporciona un icono en la bandeja del sistema para facilitar el cambio entre GPUs.
+Si prefieres la versión más reciente directamente del repositorio de desarrollo, puedes optar por instalar `optimus-manager-qt-git`:
 
-### Bandeja de Sistema
+```bash
+# Instala optimus-manager-qt desde AUR
+$ yay -S optimus-manager-qt
+```
 
-El paquete **`optimus-manager-qt`** proporciona un icono en la bandeja del sistema para facilitar el cambio entre GPUs. También incluye una interfaz gráfica para configurar opciones sin necesidad de editar manualmente el archivo de configuración.
+**Nota para usuarios de Plasma:** Si estás utilizando el entorno de escritorio KDE Plasma, se recomienda modificar el archivo `PKGBUILD` durante la instalación para habilitar características adicionales de la API de KDE. Para hacerlo, reemplaza `_plasma=false` por `_plasma=true` en el `PKGBUILD`. Esto también añadirá dependencias adicionales necesarias para las características específicas de Plasma.
 
-- **Paquete AUR:** [optimus-manager-qt](https://aur.archlinux.org/packages/optimus-manager-qt)
-- **Extensiones no oficiales de Gnome Shell:**
-  - [optimus-manager-argos](https://github.com/inzar98/optimus-manager-argos)
-  - [optimus-manager-indicator](https://github.com/andr3slelouch/optimus-manager-indicator)
+#### Usar Optimus Manager
 
-## Recursos Adicionales
+Aquí tienes algunos comandos útiles para gestionar tus GPUs con **Optimus Manager**:
 
-- [Wiki de Arch Linux sobre NVIDIA Optimus](https://wiki.archlinux.org/title/NVIDIA_Optimus_(Espa%C3%B1ol))
-- [Documentación de Mesa](https://www.mesa3d.org/)
-- [Documentación de AUR](https://wiki.archlinux.org/title/Arch_User_Repository_(Espa%C3%B1ol))
+```bash
+# Cambiar a la GPU Nvidia
+$ optimus-manager --switch nvidia
 
-¡Con estos pasos deberías estar listx para disfrutar de tus juegos en Arch Linux!
+# Cambiar a la GPU integrada y apagar la GPU Nvidia
+$ optimus-manager --switch integrated
+
+# Cambiar a la iGPU pero mantener la GPU Nvidia disponible para descarga bajo demanda
+$ optimus-manager --switch hybrid
+```
+
+**Advertencia:** Cambiar de modo cerrará automáticamente tu sesión. Asegúrate de guardar tu trabajo y cerrar todas tus aplicaciones antes de ejecutar el comando.
+
+### 
+Espero que esta guía te sea útil y clara para configurar tu sistema Arch Linux para gaming. Si tienes más preguntas o sugerencias, no dudes en abrir un issue o contribuir con un pull request.
+---
+
 
