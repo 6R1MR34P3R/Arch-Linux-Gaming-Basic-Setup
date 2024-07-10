@@ -133,5 +133,4 @@ El paquete **`optimus-manager-qt`** proporciona un icono en la bandeja del siste
 - [Documentación de AUR](https://wiki.archlinux.org/title/Arch_User_Repository_(Espa%C3%B1ol))
 
 ¡Con estos pasos deberías estar listx para disfrutar de tus juegos en Arch Linux!
-```
 
