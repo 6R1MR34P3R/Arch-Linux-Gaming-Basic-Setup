@@ -1,4 +1,4 @@
-```markdown
+
 # Guía de Instalación para Arch Linux Gaming
 
 Esta guía te ayudará a configurar un sistema Arch Linux optimizado para juegos. Incluye la instalación de drivers, herramientas de gestión de GPU, y otros componentes necesarios para una experiencia de juego fluida.
