@@ -9,7 +9,7 @@ Mira en los directorios 'en' 'es' para ver en el idioma que prefieras.
 
 ## Game Software and Emulation
 
-- [ ] **Add a section for Game Software**:
+- [:heavy_check_mark:] **Add a section for Game Software**:
   - Research and list popular game software available for Arch Linux.
   - Provide installation instructions and configuration tips.
   - Examples: Steam, Lutris, PlayOnLinux, Wine.
@@ -42,26 +42,3 @@ Mira en los directorios 'en' 'es' para ver en el idioma que prefieras.
   - [ ] **Document the Script**:
     - Add instructions on how to use the script in the README.md.
     - Provide example command: `bash setup.sh` or `python setup.py`.
-
-## Documentation Updates
-
-- [ ] **Update the README.md**:
-  - Add links to the new sections on game software and emulation.
-  - Provide instructions for running the automated installation script.
-
-- [ ] **Update the LICENSE File**:
-  - Add a notice or a note about the inclusion of the automated script under the CC BY 4.0 license.
-
-## Maintenance and Future Improvements
-
-- [ ] **Review and Update Software List**:
-  - Periodically check for updates to the game software and emulators listed in the guide.
-  - Add new popular games and emulators as they become available.
-
-- [ ] **User Feedback and Suggestions**:
-  - Create an issue template for users to provide feedback or suggest improvements.
-  - Example: "Submit an issue if you encounter problems or have suggestions for the guide."
-
-- [ ] **Improve User Experience**:
-  - Look for ways to make the guide and script more user-friendly based on feedback and personal observations.
-  - Consider adding 
