@@ -9,7 +9,7 @@ Mira en los directorios 'en' 'es' para ver en el idioma que prefieras.
 
 ## Game Software and Emulation
 
-- [:heavy_check_mark:] **Add a section for Game Software**:
+- [x] **Add a section for Game Software**:
   - Research and list popular game software available for Arch Linux.
   - Provide installation instructions and configuration tips.
   - Examples: Steam, Lutris, PlayOnLinux, Wine.
