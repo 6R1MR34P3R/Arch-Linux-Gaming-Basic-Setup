@@ -15,7 +15,7 @@ $ sudo pacman -Syu
 
 To be able to install 32-bit packages on your 64-bit system, you need to enable the `multilib` repository. This is especially important for compatibility with certain games and applications.
 
-To enable the `multilib` repository, uncomment (remove the #) the `[multilib]` section in `/etc/pacman.conf` with your favorite text editor:
+To enable the `multilib` repository, uncomment (remove the #) on the `[multilib]` section in `/etc/pacman.conf` with your favorite text editor:
 ```bash
 $ sudo nano /etc/pacman.conf
 ```
