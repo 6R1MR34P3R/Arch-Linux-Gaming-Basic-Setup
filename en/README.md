@@ -41,7 +41,7 @@ Depending on your hardware, install the corresponding drivers for Nvidia, AMD, o
 
 ```bash
 # Install the Nvidia driver
-$ sudo mhwd -a pci nonfree 0300
+$ sudo pacman -Syu nvidia-dkms 
 
 # Install Mesa and its dependencies
 $ sudo pacman -S mesa lib32-mesa libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos
