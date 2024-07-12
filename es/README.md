@@ -41,7 +41,7 @@ Dependiendo de tu hardware, instala los drivers correspondientes para Nvidia, AM
 
 ```bash
 # Instala el driver Nvidia
-$ sudo mhwd -a pci nonfree 0300
+$ pacman -Syu nvidia-dkms
 
 # Instala Mesa y sus dependencias
 $ sudo pacman -S mesa lib32-mesa libva-mesa-driver mesa-vdpau opengl-mesa vulkan-mesa-layers mesa-demos vulkan-tools lib32-libva-mesa-driver lib32-mesa-vdpau lib32-opengl-mesa lib32-vulkan-mesa-layers lib32-mesa-demos
